@@ -1,6 +1,6 @@
 import { ChatGPTAPI } from "chatgpt";
 
-export async function connect(apiKey: any) {
+export default async function connect(apiKey: any) {
   const api = new ChatGPTAPI({
     apiKey: apiKey,
   });

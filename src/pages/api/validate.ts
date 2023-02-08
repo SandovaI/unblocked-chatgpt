@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { connect } from "../controllers/connect";
-
+import connect from "../controllers/connect";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse //<Data>

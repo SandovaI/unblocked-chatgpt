@@ -8,6 +8,12 @@ const nextConfig = {
       const ignoreFs = new IgnorePlugin({ resourceRegExp: /fs/ });
       config.plugins.push(ignoreFs);
     }
+    if (typeof nextRuntime === "undefined") {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
+    }
 
     return config;
   },

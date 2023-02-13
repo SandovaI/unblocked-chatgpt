@@ -9,11 +9,9 @@ export default async function validate(
   if (req.method === "POST") {
     try {
       const result = await connect(req.body.api_key);
-      const date = new Date();
-      date.setDate(date.getDate() + 30);
       res.setHeader(
         "Set-Cookie",
-        `api_key=${req.body.api_key}; Expires=${date}; Secure; HttpOnly;`
+        `api_key=${req.body.api_key}; Path=/; Max-Age=2592000; Secure; HttpOnly`
       );
       res.status(200).json("Key valid");
     } catch {

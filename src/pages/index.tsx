@@ -1,8 +1,7 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
-
+import Directions from "../components/directions";
+import APIForm from "../components/api-form";
 export default function Home() {
   return (
     <>
@@ -12,23 +11,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <header>
+        <nav></nav>
+      </header>
       <main className={styles.main}>
-        I know, this is a turnoff but sadly, you cannot use ChatGPT without an
-        API key.
-        <br />
-        Why do I need this? We cannot use a private API key due to rate limits
-        and privacy. You can find your api key at:
-        https://beta.openai.com/account/api-keys <br />
-        <div>
-          <form action="/api/validate" method="POST">
-            <div>
-              <label>Enter API Key: </label>
-              <input type="text" name="api_key" required></input>
-              <button type="submit">Submit</button>
-            </div>
-          </form>
-        </div>
+        <Directions />
+        <APIForm />
         <div>
           <form action="/api/conversation" method="GET">
             <div>
@@ -39,6 +27,7 @@ export default function Home() {
           </form>
         </div>
       </main>
+      <footer></footer>
     </>
   );
 }

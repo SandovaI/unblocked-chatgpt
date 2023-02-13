@@ -1,12 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { connect } from "../../controllers/connect";
-export default async function handler(
+import { NextResponse } from "next/server";
+
+export default async function validate(
   req: NextApiRequest,
   res: NextApiResponse //<Data>
 ) {
   if (req.method === "POST") {
     try {
       const result = await connect(req.body.api_key);
+      const date = new Date();
+      date.setDate(date.getDate() + 30);
+      res.setHeader(
+        "Set-Cookie",
+        `api_key=${req.body.api_key}; Expires=${date}; Secure; HttpOnly;`
+      );
       res.status(200).json("Key valid");
     } catch {
       res.status(500).json({

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
+import url from "../constants/api.constants";
 export default function APIForm() {
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState(null);
@@ -46,7 +47,8 @@ export default function APIForm() {
 }
 
 async function submitForm(answer: string) {
-  const res = await fetch("http://localhost:3000/api/validate", {
+  console.log(URL);
+  const res = await fetch(`${url.API_URL}/api/validate`, {
     headers: {
       "Content-Type": "application/json",
     },

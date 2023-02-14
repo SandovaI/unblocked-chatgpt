@@ -17,15 +17,6 @@ export default function Home() {
       <main className={styles.main}>
         <Directions />
         <APIForm />
-        <div>
-          <form action="/api/conversation" method="GET">
-            <div>
-              <label>Ask ChatGPT: </label>
-              <input type="text" name="q" required></input>
-              <button type="submit">Submit</button>
-            </div>
-          </form>
-        </div>
       </main>
       <footer></footer>
     </>

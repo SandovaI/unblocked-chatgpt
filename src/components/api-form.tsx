@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import url from "../constants/api.constants";
+import styles from "../styles/api.module.css";
 export default function APIForm() {
   const [answer, setAnswer] = useState("");
   const [error, setError] = useState(null);
@@ -24,7 +25,8 @@ export default function APIForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <p>API Key goes here:</p>
         <textarea
           value={answer}
           onChange={handleTextareaChange}
@@ -34,7 +36,6 @@ export default function APIForm() {
         <button disabled={answer.length === 0 || status === "submitting"}>
           Submit
         </button>
-        <p className="Error">{status}</p>
         {error !== null && <p className="Error">{error}</p>}
       </form>
       {status === "Key valid" && (

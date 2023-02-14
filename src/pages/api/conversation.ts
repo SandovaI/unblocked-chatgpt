@@ -2,11 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ChatGPTAPI } from "chatgpt";
 
-const api = new ChatGPTAPI({
-  apiKey: process.env.OPENAI_API_KEY as string,
-});
-
-async function example(q: any) {
+async function ask(q: any, api: ChatGPTAPI) {
   const res = await api.sendMessage(q);
   return res.text;
 }
@@ -19,11 +15,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse //<Data>
 ) {
-  try {
-    const { q } = req.query;
-    const result = await example(q);
-    res.status(200).json(result);
-  } catch {
-    res.status(500).json({ error: "failed to load data" });
+  if (req.method === "POST") {
+    try {
+      const api = new ChatGPTAPI({
+        apiKey: req.cookies.api_key as string,
+      });
+      const result = await ask(req.body.q, api);
+      res.status(200).json(result);
+    } catch {
+      res.status(500).json({ error: "failed to load data" });
+    }
+  } else {
+    res.status(405).json({ error: "Method Not Allowed" });
   }
 }

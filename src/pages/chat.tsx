@@ -9,7 +9,7 @@ export default function Home() {
         <nav></nav>
       </header>
       <main className={styles.main}>
-        <form action="/api/conversation" method="GET">
+        <form action="/api/conversation" method="POST">
           <div>
             <label>Ask ChatGPT: </label>
             <input type="text" name="q" required></input>

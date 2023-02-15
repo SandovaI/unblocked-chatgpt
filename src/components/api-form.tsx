@@ -2,43 +2,31 @@ import { useState } from "react";
 import Link from "next/link";
 import url from "../constants/api.constants";
 import styles from "../styles/api.module.css";
+import { useFormInput } from "../hooks/useFormInput";
+import { useHandleSubmit } from "../hooks/useHandleSubmit";
 export default function APIForm() {
-  const [answer, setAnswer] = useState("");
-  const [error, setError] = useState(null);
-  const [status, setStatus] = useState("typing");
-
-  async function handleSubmit(e: any) {
-    e.preventDefault();
-    setStatus("submitting");
-    try {
-      const res = await submitForm(answer);
-      setStatus(res);
-    } catch (err: any) {
-      setStatus("typing");
-      setError(err.message);
-    }
-  }
-
-  function handleTextareaChange(e: any) {
-    setAnswer(e.target.value);
-  }
+  const inputProps = useFormInput();
+  const formProps = useHandleSubmit(inputProps.value);
 
   return (
     <>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} {...formProps}>
         <p>API Key goes here:</p>
         <textarea
-          value={answer}
-          onChange={handleTextareaChange}
-          disabled={status === "submitting"}
+          {...inputProps}
+          disabled={formProps.status === "submitting"}
         />
         <br />
-        <button disabled={answer.length === 0 || status === "submitting"}>
+        <button
+          disabled={
+            inputProps.value.length === 0 || formProps.status === "submitting"
+          }
+        >
           Submit
         </button>
-        {error !== null && <p className="Error">{error}</p>}
+        {formProps.error !== null && <p className="Error">{formProps.error}</p>}
       </form>
-      {status === "Key valid" && (
+      {formProps.status === "Key valid" && (
         <Link href="/chat">
           <button>Go to Chat</button>
         </Link>

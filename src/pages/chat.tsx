@@ -6,17 +6,21 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState("typing");
   const [messages, setMessages]: any = useState([]);
+  const [conversationId, setConversationId] = useState("");
+  const [parentMessageId, setParentMessageId] = useState("");
 
   async function handleSubmit(e: any) {
     e.preventDefault();
     setStatus("submitting");
     try {
       const res = await submitForm(answer);
-      setStatus(res);
+      setConversationId(res.conversationId);
+      setParentMessageId(res.parentMessageId);
+      setStatus("success");
       setMessages([
         ...messages,
         { answer: answer, bot: false },
-        { answer: res, bot: true },
+        { answer: res.text, bot: true },
       ]);
     } catch (err: any) {
       setStatus("typing");
@@ -27,12 +31,17 @@ export default function Home() {
   function handleTextareaChange(e: any) {
     setAnswer(e.target.value);
   }
+
   async function submitForm(answer: string) {
     const res = await fetch(`${url.API_URL}/api/conversation`, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ q: answer }),
+      body: JSON.stringify({
+        q: answer,
+        conversationId: conversationId,
+        parentMessageId: parentMessageId,
+      }),
       method: "POST",
     });
     const message = await res.json();

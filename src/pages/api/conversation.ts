@@ -4,7 +4,7 @@ import { ChatGPTAPI } from "chatgpt";
 
 async function ask(q: any, api: ChatGPTAPI) {
   const res = await api.sendMessage(q);
-  return res.text;
+  return res;
 }
 
 type Data = {
@@ -21,7 +21,13 @@ export default async function handler(
         apiKey: req.cookies.api_key as string,
       });
       const result = await ask(req.body.q, api);
-      res.status(200).json(result);
+      res
+        .status(200)
+        .json({
+          text: result.text,
+          conversationId: result.conversationId,
+          parentMessageId: result.id,
+        });
     } catch {
       res.status(500).json({ error: "failed to load data" });
     }
